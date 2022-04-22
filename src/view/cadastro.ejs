@@ -1,0 +1,58 @@
+<%- include('includes/head') %>
+
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100 p-t-50 p-b-90">
+                    <form class="login100-form validate-form flex-sb flex-w" action="cadastro" method="POST">
+                        <span class="login100-form-title p-b-51">
+                            <img src="/images/icon.png" width="35%">
+                        </span>
+                        <span class="login100-form-title p-b-51">
+                            MENSAGERIA CHAT
+                        </span>
+                        <span class="login100-form-title p-b-51">
+                            CADASTRO
+                        </span>
+
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Nome é obrigatório">
+                            <input class="input100" type="text" name="nome" autocomplete autofocus
+                                placeholder="Nome">
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="E-mail é obrigatório">
+                            <input class="input100" type="email" name="email" autocomplete 
+                                placeholder="E-mail">
+                            <span class="focus-input100"></span>
+                        </div>
+
+
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Senha é obrigatória">
+                            <input class="input100" type="password" name="senha" placeholder="Senha">
+                            <span class="focus-input100"></span>
+                        </div>
+
+
+                        <div>
+                            Já tem uma conta? <a href="./login" class="txt1">
+                                Entre
+                            </a>
+                        </div>
+
+                        <div class="container-login100-form-btn m-t-17">
+                            <button type="submit" class="login100-form-btn">
+                                Cadastrar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <%- include('includes/footer') %>
+    </body>
