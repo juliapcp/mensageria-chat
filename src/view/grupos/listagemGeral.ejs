@@ -1,0 +1,26 @@
+<%- include('../includes/head') %>
+
+<body>
+    <%- include('../includes/navbar') %>
+    <div class="w3-container" style="padding-left: 10%; padding-right: 10%;">
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+                    <thead>
+                        <tr>
+                            <th>NOME DO GRUPO</th>
+                            <th>QUANTIDADE DE MEMBROS</th>
+                        </tr>
+                    </thead>
+                    <% grupos.forEach(grupo=> { %>
+                        <tr>
+                            <td>
+                                <%= grupo.nome %>
+                            </td>
+                            <td>
+                                <%= grupo.membros %>
+                            </td>
+                        </tr>
+                    <% }) %>    
+        </table>
+    </div>
+    <%- include('../includes/footer') %>
+</body>

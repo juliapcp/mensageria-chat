@@ -8,10 +8,17 @@ class UsuariosController {
     }
     async cadastro(req, res) {
         const usuarioBody = req.body;
-        const senha = bcrypt.hashSync(usuarioBody.senha, 10); 
-        const usuario = new Usuario(usuarioBody.email, usuarioBody.nome, senha);
-        await UsuarioDAO.cadastrar(usuario);
-        res.redirect('/');
+        const usuarioEcontrado = await UsuarioDAO.buscaPeloEmail(usuarioBody.email);
+        if (usuarioEcontrado) {
+            const msg = {}; msg.titulo = "E-mail em uso";
+            msg.mensagem = "Este e-mail já está em uso em um cadastro no Mensageria Chat. Tente fazer login.";
+            return res.render('login', { msg: msg });
+        } else {
+            const senha = bcrypt.hashSync(usuarioBody.senha, 10);
+            const usuario = new Usuario(usuarioBody.email, usuarioBody.nome, senha);
+            await UsuarioDAO.cadastrar(usuario);
+            return res.redirect('/');
+        }
     }
     async mostraLogin(req, res) {
         return res.render('login', {});
@@ -20,17 +27,26 @@ class UsuariosController {
         const { email, senha } = req.body;
         const usuarioEcontrado = await UsuarioDAO.buscaPeloEmail(email);
 
-        if (!usuarioEcontrado) return res.send('Usuário não encontrado');
-
-        const confere = bcrypt.compareSync(senha, usuarioEcontrado.senha);
-        if (confere) {
-            req.session.usuario = usuarioEcontrado;
-            return res.send('Usuario e senha confirmados, vc fez o login');
+        const msg = {};
+        msg.titulo = "Tente novamente";
+        msg.mensagem = "Email ou senha inválidos.";
+        if (!usuarioEcontrado) {
+            return res.render('login', { msg: msg });
         } else {
-            return res.send('Senha nao confere...');
+            const confere = bcrypt.compareSync(senha, usuarioEcontrado.senha);
+            req.session.usuario = usuarioEcontrado;
+            if (confere) {
+                req.session.usuario = usuarioEcontrado;
+                return res.redirect('/');
+            } else {
+                return res.render('login', { msg: msg });
+            }
         }
-        
+    }
+    async logout(req, res) {
+        req.session.usuario = null;
+        return res.redirect("usuarios/login")
     }
 }
 
-module.exports = {UsuariosController};
+module.exports = { UsuariosController };

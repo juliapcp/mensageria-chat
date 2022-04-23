@@ -17,4 +17,6 @@ routes.post('/cadastro', usuarioController.cadastro);
 
 routes.get('/cadastro', usuarioController.mostraCadastro);
 
+routes.get('/logout', usuarioController.logout);
+
 module.exports = routes;

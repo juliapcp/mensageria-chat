@@ -22,21 +22,23 @@ app.use(session({
 
 app.use(express.static('public'));
 
-// app.get('*', (req, res, next) => {
-//     if (req.url != '/usuario/login' && req.url != '/usuario/cadastro' && req.url != '/index') {
-//         if (!req.session.usuario) {
-//             res.redirect('/usuario/login');
-//         } else {
-//             next();
-//         }
-//     } else {
-//         next();
-//     }
-// })
 
-// app.get('/', (req, res) => {
-//     res.redirect('/filmes');
-// });
+app.get('*', (req, res, next) => {
+    console.log(req.url)
+    if (req.url != '/usuarios/login' && req.url != '/usuarios/cadastro' && req.url != '/grupos' && req.url != '/') {
+        if (!req.session.usuario) {
+            res.redirect('/usuarios/login')
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+})
+
+app.get('/', (req, res) => {
+    res.redirect('/grupos');
+});
 
 const usuariosRoutes = require('./routes/usuarios-routes');
 app.use('/usuarios', usuariosRoutes);
