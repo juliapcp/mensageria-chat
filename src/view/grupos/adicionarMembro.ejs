@@ -1,0 +1,49 @@
+<%- include('../includes/head') %>
+
+    <body>
+        <%- include('../includes/navbar') %>
+        <% if(typeof msg !="undefined" ){ %>
+            <%- include('../includes/modal') %>
+        <%}%>
+            <div class="limiter">
+                <div class="container">
+                    <div class="wrap-login100 p-t-5 p-b-90">
+                        <form class="login100-form validate-form flex-sb flex-w" action="adicionarMembro" method="POST">
+                            <span class="login100-form-title p-b-51">
+                                Adicionar novo membro em <%= grupo.nome %>
+                            </span>
+
+
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="E-mail do novo membro é obrigatório">
+                                <input class="input100" type="email" name="emailUsuario" autocomplete autofocus required
+                                    placeholder="E-mail do novo membro">
+                                <span class="focus-input100"></span>
+                            </div>
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Permissão é obrigatório">
+                                <select style="border: none;" name="permissao" class="form-select input100" required>
+                                    <option value="" selected disabled hidden>Permissão</option>
+                                    <option value="admin">Administrador</option>
+                                    <option value="escritor">Escritor</option>
+                                    <option value="leitor">Leitor</option>
+                                </select>
+                                <span class="focus-input100"></span>
+                            </div>
+                            <div class="container-login100-form-btn m-t-17">
+                                <button type="submit" class="login100-form-btn">
+                                    Adicionar membro
+                                </button>
+                            </div>
+                            <div>
+                                <a href="/" class="txt1">
+                                    Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <%- include('../includes/footer') %>
+
+    </body>

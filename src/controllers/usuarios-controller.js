@@ -17,6 +17,7 @@ class UsuariosController {
             const senha = bcrypt.hashSync(usuarioBody.senha, 10);
             const usuario = new Usuario(usuarioBody.email, usuarioBody.nome, senha);
             await UsuarioDAO.cadastrar(usuario);
+            req.session.usuario = usuario;
             return res.redirect('/');
         }
     }
@@ -34,7 +35,6 @@ class UsuariosController {
             return res.render('login', { msg: msg });
         } else {
             const confere = bcrypt.compareSync(senha, usuarioEcontrado.senha);
-            req.session.usuario = usuarioEcontrado;
             if (confere) {
                 req.session.usuario = usuarioEcontrado;
                 return res.redirect('/');

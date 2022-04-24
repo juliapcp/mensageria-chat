@@ -13,4 +13,13 @@ routes.post('/cadastro', grupoController.cadastro);
 
 routes.get('/cadastro', grupoController.mostraCadastro);
 
+routes.get('/listagemPorUsuario', grupoController.mostraListagemPorUsuario);
+
+routes.get('/:idGrupo', grupoController.mostraDetalhe);
+
+routes.get('/:idGrupo/adicionarMembro', grupoController.mostraAdicionarMembro);
+
+routes.post('/:idGrupo/adicionarMembro', grupoController.adicionaMembro);
+
+
 module.exports = routes;

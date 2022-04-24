@@ -15,8 +15,12 @@ class GrupoDAO {
     static async buscaPeloId(id) {
         const sql = 'SELECT * FROM GRUPO WHERE ID = $1';
         const result = await dbcon.query(sql, [id]);
-        const grupo = new Grupo(result.rows[0].id, result.rows[0].nome, result.rows[0].emailCriador, result.rows[0].dataCriacao);
-        return grupo;
+        if (result.rows[0]) {
+            const grupo = new Grupo(result.rows[0].id, result.rows[0].nome, result.rows[0].emailCriador, result.rows[0].dataCriacao);
+            return grupo;
+        } else {
+            return null;
+        }
     }
     static async buscaTodosComMembros() {
         const sql = 
@@ -36,7 +40,7 @@ class GrupoDAO {
         const proximoId = result.rows[0].nextval;
 
         const sql = 'INSERT INTO GRUPO (ID, NOME, EMAILCRIADOR, DATACRIACAO) VALUES ($1, $2, $3, $4);';
-        const values = [proximoId, grupo.nome, grupo.emailCriador, grupo.dataCriacao];
+        const values = [proximoId, grupo.nome.toUpperCase(), grupo.emailCriador, grupo.dataCriacao];
 
         try {
             await dbcon.query(sql, values);
@@ -44,8 +48,10 @@ class GrupoDAO {
             console.log({ error });
         }
 
-        const usuarioGrupo = new UsuarioGrupo(grupo.emailCriador, proximoId, 'admin');
+        const usuarioGrupo = new UsuarioGrupo(null, grupo.emailCriador, proximoId, 'admin');
         UsuarioGrupoDAO.cadastrar(usuarioGrupo);
+
+        return proximoId;
     }
 
 }

@@ -2,13 +2,13 @@
 
 <body>
     <%- include('../includes/navbar') %>
-    <h1 class="titulo">TODOS OS GRUPOS</h1>
     <div class="w3-container" style="padding-left: 10%; padding-right: 10%;">
+        <h1 class="titulo">MEUS GRUPOS</h1>    
         <table class="w3-table w3-bordered w3-border w3-hoverable w3-white">
                     <thead style="color: #403866c5">
                         <tr>
                             <th>NOME DO GRUPO</th>
-                            <th>QUANTIDADE DE MEMBROS</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <% grupos.forEach(grupo=> { %>
@@ -17,7 +17,9 @@
                                 <%= grupo.nome %>
                             </td>
                             <td>
-                                <%= grupo.membros %>
+                                <a href="/grupos/<%= grupo.idgrupo %>" class="txt1">
+                                    Ir para a conversa ➝
+                                </a>
                             </td>
                         </tr>
                     <% }) %>    
