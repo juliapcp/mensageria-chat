@@ -34,7 +34,7 @@ class UsuarioGrupoDAO {
         return result.rows[0].permissao;
     }
     static async buscaMembrosDoGrupo(idGrupo) {
-        const sql = "SELECT GRUPO.NOME AS NOMEGRUPO, USUARIO.NOME, CASE PERMISSAO WHEN 'admin' THEN 'Administrador' WHEN 'escritor' THEN 'Escritor' ELSE 'Leitor' END AS PERMISSAO FROM USUARIOGRUPO INNER JOIN USUARIO ON EMAILUSUARIO = USUARIO.EMAIL LEFT JOIN GRUPO ON IDGRUPO = GRUPO.ID  WHERE idGrupo = $1";
+        const sql = "SELECT GRUPO.NOME AS NOMEGRUPO, USUARIO.NOME, usuario.email, CASE PERMISSAO WHEN 'admin' THEN 'Administrador' WHEN 'escritor' THEN 'Escritor' ELSE 'Leitor' END AS PERMISSAO FROM USUARIOGRUPO INNER JOIN USUARIO ON EMAILUSUARIO = USUARIO.EMAIL LEFT JOIN GRUPO ON IDGRUPO = GRUPO.ID  WHERE idGrupo = $1";
         const result = await dbcon.query(sql, [idGrupo]);
         return result.rows;
     }

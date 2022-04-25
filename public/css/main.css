@@ -760,27 +760,17 @@ body {
     position: relative;
     margin: 20px -20px -20px;
     padding: 20px;
-    background: #46be8a;
 }
 
 .chat-body .answer-add input {
-    border: none;
-    background: none;
     display: block;
-    width: 100%;
+    width: 88%;
     font-size: 16px;
-    line-height: 20px;
-    padding: 0;
-    color: #ffffff;
-}
+    border: #000 solid 1px;
 
-.chat input {
-    -webkit-appearance: none;
-    border-radius: 0;
 }
 
 .chat-body .answer-add .answer-btn-1 {
-    background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-40.png") 50% 50% no-repeat;
     right: 56px;
 }
 
@@ -792,32 +782,4 @@ body {
     position: absolute;
     top: 50%;
     margin-top: -18px;
-}
-
-.chat-body .answer-add .answer-btn-2 {
-    background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-41.png") 50% 50% no-repeat;
-    right: 20px;
-}
-
-.chat input::-webkit-input-placeholder {
-    color: #fff;
-}
-
-.chat input:-moz-placeholder {
-    /* Firefox 18- */
-    color: #fff;
-}
-
-.chat input::-moz-placeholder {
-    /* Firefox 19+ */
-    color: #fff;
-}
-
-.chat input:-ms-input-placeholder {
-    color: #fff;
-}
-
-.chat input {
-    -webkit-appearance: none;
-    border-radius: 0;
 }

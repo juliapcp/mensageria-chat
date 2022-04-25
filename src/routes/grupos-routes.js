@@ -21,5 +21,7 @@ routes.get('/:idGrupo/adicionarMembro', grupoController.mostraAdicionarMembro);
 
 routes.post('/:idGrupo/adicionarMembro', grupoController.adicionaMembro);
 
+routes.post('/:idGrupo/enviaMensagem', grupoController.enviaMensagem);
+
 
 module.exports = routes;
