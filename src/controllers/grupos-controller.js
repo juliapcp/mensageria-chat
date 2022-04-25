@@ -1,4 +1,5 @@
 const { Grupo, GrupoDAO } = require('../models/grupo');
+const { MensagemDAO } = require('../models/mensagem');
 const { UsuarioDAO } = require('../models/usuario');
 const { UsuarioGrupo, UsuarioGrupoDAO } = require('../models/usuariogrupo');
 
@@ -63,8 +64,11 @@ class GruposController {
 
     async mostraDetalhe(req, res){
         const { idGrupo } = req.params;
+        const grupo = await GrupoDAO.buscaPeloId(idGrupo);
         const membrosGrupo = await UsuarioGrupoDAO.buscaMembrosDoGrupo(idGrupo);
-        return res.render('grupos/detalhe', {membrosGrupo});
+        const mensagens = await MensagemDAO.buscaMensagensGrupo(idGrupo, req.session.usuario.email);
+        const permissaoUsuarioGrupo = await UsuarioGrupoDAO.buscarPermissaoUsuarioGrupo(idGrupo, req.session.usuario.email);
+        return res.render('grupos/detalhe', {grupo, membrosGrupo, mensagens, permissaoUsuarioGrupo});
     }
 
 }
