@@ -26,10 +26,11 @@ class MensagemDAO {
     }
     
     static async cadastrar(mensagem) {
+        await dbcon.query(`SET timezone=-3;`);
         const sql = `INSERT INTO mensagem
-            (emailusuario, dataenvio, texto, idgrupo)
-            VALUES($1, $2, $3, $4);`;
-        const values = [mensagem.emailusuario, mensagem.dataenvio, mensagem.texto, mensagem.idgrupo];
+            (emailusuario, texto, idgrupo)
+            VALUES($1, $2, $3);`;
+        const values = [mensagem.emailusuario, mensagem.texto, mensagem.idgrupo];
         try {
             await dbcon.query(sql, values);
         } catch (error) {

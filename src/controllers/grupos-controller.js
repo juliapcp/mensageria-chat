@@ -9,7 +9,7 @@ class GruposController {
     }
     async cadastro(req, res) {
         const grupoBody = req.body;
-        const grupo = new Grupo(null, grupoBody.nome, req.session.usuario.email, new Date());
+        const grupo = new Grupo(null, grupoBody.nome, req.session.usuario.email, null);
         const id = await GrupoDAO.cadastrar(grupo);
         res.redirect('/grupos/'+id+'/adicionarMembro');
     }
@@ -90,7 +90,7 @@ class GruposController {
     async enviaMensagem(req, res){
         const mensagemBody = req.body;
         const { idGrupo } = req.params;
-        const mensagem = new Mensagem(null, req.session.usuario.email, new Date(), mensagemBody.texto, idGrupo);
+        const mensagem = new Mensagem(null, req.session.usuario.email, null, mensagemBody.texto, idGrupo);
         await MensagemDAO.cadastrar(mensagem);
         res.redirect('/grupos/' + idGrupo);
     }
