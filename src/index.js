@@ -22,6 +22,11 @@ app.use(session({
 
 app.use(express.static('public'));
 
+app.use(function (req, res, next) {
+    res.locals.usuario = req.session.usuario;
+    next();
+});
+
 
 app.get('*', (req, res, next) => {
     console.log(req.url)

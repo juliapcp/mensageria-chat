@@ -51,6 +51,22 @@ class GruposController {
         }
     }
 
+    async eliminaMembro(req, res) {
+        const { idGrupo, emailUsuario } = req.params;
+        const grupo = await GrupoDAO.buscaPeloId(idGrupo);
+        if (grupo) {
+            const usuario = await UsuarioDAO.buscaPeloEmail(emailUsuario);
+            if (usuario) {
+                await UsuarioGrupoDAO.eliminaUsuarioGrupo(idGrupo, emailUsuario);
+
+            }
+        }
+        if(req.session.usuario.email == emailUsuario){
+            res.redirect("/");
+        } else {
+            res.redirect("/grupos/"+idGrupo);
+        }
+    }
     async mostraListagemGeral(req, res){
         const grupos = await GrupoDAO.buscaTodosComMembros();
         return res.render('grupos/listagemGeral', {grupos})

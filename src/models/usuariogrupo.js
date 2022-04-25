@@ -1,4 +1,6 @@
 const { dbcon } = require("../config/connection-db");
+const { GrupoDAO } = require('../models/grupo');
+const { UsuarioDAO } = require('../models/usuario');
 
 class UsuarioGrupo {
     constructor(id, emailUsuario, idGrupo, permissao) {
@@ -47,7 +49,13 @@ class UsuarioGrupoDAO {
         } else {
             return null;
         }
-    }  
+    }
+
+    static async eliminaUsuarioGrupo(idGrupo, emailUsuario) {
+        const sql = 'DELETE FROM USUARIOGRUPO WHERE idGrupo = $1 AND emailUsuario = $2';
+        await dbcon.query(sql, [idGrupo, emailUsuario]);
+    }
+
 
     static async cadastrar(usuarioGrupo) {
         const sql = 'INSERT INTO USUARIOGRUPO (emailusuario, idgrupo, permissao) VALUES ($1, $2, $3);';

@@ -7,10 +7,9 @@
                 <%=grupo.nome%>
             </h3>
             <% if(permissaoUsuarioGrupo !='admin' ){ %>
-
                 <h6 style="text-align: right; margin-right: 12%;">
-                    <a href="/">
-                        <i style="color: red;" class="fa fa-times"> Sair do Grupo</i>
+                    <a href="/grupos/<%=grupo.id%>/eliminarMembro/<%=usuario.email%>">
+                        <i title="Sair do Grupo" style="color: red; font-size: 150%;" class="fa-solid fa-arrow-right-from-bracket"></i>
                     </a>
                 </h6>
                 <% } %>
@@ -26,7 +25,7 @@
                                             <h6>Membros
                                                 <% if(permissaoUsuarioGrupo=='admin' ){ %>
                                                     <a href="/grupos/<%=grupo.id%>/adicionarMembro">
-                                                        <i class="fa fa-plus"> Adicionar</i>
+                                                        <i title="Adicionar membro" style="font-size: 90%; color: green"class="fa-solid fa-user-plus"></i>
                                                     </a>
                                                     <% } %>
                                             </h6>
@@ -38,11 +37,11 @@
                                                     </div>
                                                     <div class="name">
                                                         <%=membro.nome%>
-                                                            <% if(permissaoUsuarioGrupo=='admin'){ %>
+                                                            <% if(permissaoUsuarioGrupo=='admin' && membro.email !== usuario.email){ %>
                                                                 <a
-                                                                    href="/grupos/<%=grupo.id%>/eliminarMembro/<%=membro.email%>">
-                                                                    <i style="color: red;" class="fa fa-times">
-                                                                        Remover</i>
+                                                                    href="/grupos/<%=grupo.id%>/eliminarMembro/<%=membro.email%>"> 
+                                                                    <i title="Remover membro" style="font-size: 90%; color: red;" class="fa-solid fa-user-xmark">
+                                                                        </i>
                                                                 </a>
                                                                 <% } %>
                                                     </div>
