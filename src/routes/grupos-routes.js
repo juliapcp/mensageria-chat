@@ -15,15 +15,11 @@ routes.get('/cadastro', grupoController.mostraCadastro);
 
 routes.get('/listagemPorUsuario', grupoController.mostraListagemPorUsuario);
 
-routes.get('/:idGrupo', grupoController.mostraDetalhe);
-
 routes.get('/:idGrupo/adicionarMembro', grupoController.mostraAdicionarMembro);
 
 routes.get('/:idGrupo/eliminarMembro/:emailUsuario', grupoController.eliminaMembro);
 
 routes.post('/:idGrupo/adicionarMembro', grupoController.adicionaMembro);
-
-routes.post('/:idGrupo/enviaMensagem', grupoController.enviaMensagem);
 
 
 module.exports = routes;

@@ -51,6 +51,9 @@ app.use('/usuarios', usuariosRoutes);
 const gruposRoutes = require('./routes/grupos-routes');
 app.use('/grupos', gruposRoutes);
 
+const mensagensRoutes = require('./routes/mensagens-routes');
+app.use('/mensagens', mensagensRoutes);
+
 app.use('*', (req, res) => {
     return res.status(404).send(`
         <h1>404 - NOT FOUND</h1>
