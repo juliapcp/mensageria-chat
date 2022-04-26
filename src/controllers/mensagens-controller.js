@@ -6,19 +6,23 @@ class MensagensController {
     
     async mostraDetalhe(req, res) {
         const { idGrupo } = req.params;
+        const pagina = req.params.pagina || 1;
+        const registrosPagina = 10;
         const grupo = await GrupoDAO.buscaPeloId(idGrupo);
         const membrosGrupo = await UsuarioGrupoDAO.buscaMembrosDoGrupo(idGrupo);
-        const mensagens = await MensagemDAO.buscaMensagensGrupo(idGrupo, req.session.usuario.email);
         const permissaoUsuarioGrupo = await UsuarioGrupoDAO.buscarPermissaoUsuarioGrupo(idGrupo, req.session.usuario.email);
-        return res.render('mensagens/detalhe', { grupo, membrosGrupo, mensagens, permissaoUsuarioGrupo });
+        const retorno = await MensagemDAO.buscaMensagensGrupo(idGrupo, req.session.usuario.email, registrosPagina, pagina);
+        return res.render('mensagens/detalhe', { grupo, membrosGrupo, mensagens: retorno.result, permissaoUsuarioGrupo, atual: pagina, paginas: Math.ceil(retorno.nroRegistros / registrosPagina)});
     }
 
     async enviaMensagem(req, res) {
         const mensagemBody = req.body;
         const { idGrupo } = req.params;
+        const { ultimaPagina } = req.query;
+        console.log(ultimaPagina)
         const mensagem = new Mensagem(null, req.session.usuario.email, null, mensagemBody.texto, idGrupo);
         await MensagemDAO.cadastrar(mensagem);
-        res.redirect('/mensagens/' + idGrupo);
+        res.redirect('/mensagens/' + idGrupo +'/'+(ultimaPagina || 1));
     }
 
 }

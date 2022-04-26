@@ -12,17 +12,40 @@ class Mensagem {
 
 class MensagemDAO {
 
-    static async buscaMensagensGrupo(idGrupo, emailUsuarioSecao) {
-        const sql = `SELECT 
+    static async buscaMensagensGrupo(idGrupo, emailUsuarioSecao, registrosPagina, pagina) {
+        const selectPrincipal = `SELECT 
             USUARIO.NOME AS NOMEUSUARIO,
             DATAENVIO, 
             TEXTO, 
             CASE EMAILUSUARIO WHEN $1 THEN 'RIGHT' ELSE 'LEFT' END AS POSICAO
             FROM MENSAGEM
             LEFT JOIN USUARIO ON EMAILUSUARIO = USUARIO.EMAIL 
-            WHERE IDGRUPO = $2`;
-        const result = await dbcon.query(sql, [emailUsuarioSecao, idGrupo]);
-        return result.rows;
+            WHERE IDGRUPO = $2
+            ORDER BY DATAENVIO ASC`;
+
+        const sqlPaginacao =
+            `SELECT
+            *
+        FROM
+            (
+            ${selectPrincipal}
+            ) SUBSELECT
+        ORDER BY
+            SUBSELECT.DATAENVIO asc
+        OFFSET (${pagina}-1) * ${registrosPagina} FETCH FIRST ${registrosPagina} ROWS ONLY;`;
+        const sqlContagem =
+            `SELECT
+            COUNT(*) AS NROREGISTROS
+        FROM
+            (
+            ${selectPrincipal}
+            ) SUBSELECT`;
+        const resultPaginacao = await dbcon.query(sqlPaginacao, [emailUsuarioSecao, idGrupo]);
+        const resultContagem = await dbcon.query(sqlContagem, [emailUsuarioSecao, idGrupo]);
+        const retorno = {};
+        retorno.result = resultPaginacao.rows;
+        retorno.nroRegistros = resultContagem.rows[0].nroregistros;
+        return retorno;
     }
     
     static async cadastrar(mensagem) {

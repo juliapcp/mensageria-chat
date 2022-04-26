@@ -784,3 +784,16 @@ body {
     margin-top: -18px;
 }
 
+.page-link:not(li .disabled) {
+    color: #7266ba !important;
+    background-color: transparent;
+}
+
+ul.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.decorada {
+    background-color: red !important;
+}

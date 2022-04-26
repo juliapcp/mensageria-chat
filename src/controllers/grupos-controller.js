@@ -68,8 +68,10 @@ class GruposController {
         }
     }
     async mostraListagemGeral(req, res){
-        const grupos = await GrupoDAO.buscaTodosComMembros();
-        return res.render('grupos/listagemGeral', {grupos})
+        const pagina = req.params.pagina || 1;
+        const registrosPagina = 5;
+        const retorno = await GrupoDAO.buscaTodosComMembros(registrosPagina, pagina);
+        return res.render('grupos/listagemGeral', { grupos: retorno.result, atual: pagina, paginas: Math.ceil(retorno.nroRegistros / registrosPagina)});
     }
 
     async mostraListagemPorUsuario(req, res){

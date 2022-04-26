@@ -22,16 +22,41 @@ class GrupoDAO {
             return null;
         }
     }
-    static async buscaTodosComMembros() {
-        const sql = 
-        `SELECT 
-            GRUPO.NOME, COUNT(*) AS MEMBROS
-        FROM GRUPO
-        INNER JOIN USUARIOGRUPO 
-            ON GRUPO.ID = USUARIOGRUPO.IDGRUPO
-        GROUP BY GRUPO.ID`;
-        const result = await dbcon.query(sql);
-        return result.rows;
+    static async buscaTodosComMembros(registrosPagina, pagina) {
+        const selectPrincipal = 
+        `SELECT
+                GRUPO.NOME,
+                COUNT(*) AS MEMBROS
+            FROM
+                GRUPO
+            INNER JOIN USUARIOGRUPO 
+                    ON
+                GRUPO.ID = USUARIOGRUPO.IDGRUPO
+            GROUP BY
+                GRUPO.ID`;
+        const sqlPaginacao = 
+        `SELECT
+            *
+        FROM
+            (
+            ${selectPrincipal}
+            ) SUBSELECT
+        ORDER BY
+            SUBSELECT.MEMBROS DESC
+        OFFSET (${pagina}-1) * ${registrosPagina} FETCH FIRST ${registrosPagina} ROWS ONLY;`;
+        const sqlContagem = 
+        `SELECT
+            COUNT(*) AS NROREGISTROS
+        FROM
+            (
+            ${selectPrincipal}
+            ) SUBSELECT`;
+        const resultPaginacao = await dbcon.query(sqlPaginacao);
+        const resultContagem = await dbcon.query(sqlContagem);
+        const retorno = {};
+        retorno.result = resultPaginacao.rows;
+        retorno.nroRegistros = resultContagem.rows[0].nroregistros;
+        return retorno;
     }
 
     static async cadastrar(grupo) {

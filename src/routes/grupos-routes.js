@@ -7,13 +7,16 @@ const routes = Router();
 const grupoController = new GruposController();
 
 
-routes.get('/', grupoController.mostraListagemGeral);
+routes.get('/listagemGeral/', grupoController.mostraListagemGeral);
+
+routes.get('/listagemGeral/:pagina', grupoController.mostraListagemGeral);
 
 routes.post('/cadastro', grupoController.cadastro);
 
 routes.get('/cadastro', grupoController.mostraCadastro);
 
 routes.get('/listagemPorUsuario', grupoController.mostraListagemPorUsuario);
+
 
 routes.get('/:idGrupo/adicionarMembro', grupoController.mostraAdicionarMembro);
 

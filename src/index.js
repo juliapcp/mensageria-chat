@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 
 app.get('*', (req, res, next) => {
     console.log(req.url)
-    if (req.url != '/usuarios/login' && req.url != '/usuarios/cadastro' && req.url != '/grupos' && req.url != '/') {
+    if (req.url != '/usuarios/login' && req.url != '/usuarios/cadastro' && !req.url.includes('grupos/listagemGeral') && req.url != '/') {
         if (!req.session.usuario) {
             res.redirect('/usuarios/login')
         } else {
@@ -42,7 +42,7 @@ app.get('*', (req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.redirect('/grupos');
+    res.redirect('/grupos/listagemGeral');
 });
 
 const usuariosRoutes = require('./routes/usuarios-routes');

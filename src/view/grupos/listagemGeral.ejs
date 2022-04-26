@@ -22,7 +22,38 @@
                         </tr>
                     <% }) %>    
         </table>
-
+            <% if (paginas> 0) { %>
+                <ul class="pagination">
+                    <% if (atual==1) { %>
+                        <li  class="page-item" class="disabled"><a class="page-link">Primeira</a></li>
+                        <% } else { %>
+                            <li  class="page-item"><a class="page-link" href="/grupos/listagemGeral/1">Primeira</a></li>
+                            <% } %>
+                                <% var i=(Number(atual)> 5 ? Number(atual) - 4 : 1) %>
+                                    <% if (i !==1) { %>
+                                        <li  class="page-item" class="disabled"><a class="page-link">...</a></li>
+                                        <% } %>
+                                            <% for (; i <=(Number(atual) + 4) && i <=paginas; i++) { %>
+                                                <% if (i==atual) { %>
+                                                    <li  class="page-item" class="active"><a class="page-link">
+                                                            <%= i %>
+                                                        </a></li>
+                                                    <% } else { %>
+                                                        <li  class="page-item"><a class="page-link" href="/grupos/listagemGeral/<%= i %>">
+                                                                <%= i %>
+                                                            </a></li>
+                                                        <% } %>
+                                                            <% if (i==Number(atual) + 4 && i < paginas) { %>
+                                                                <li  class="page-item" class="disabled"><a class="page-link">...</a></li>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% if (atual==paginas) { %>
+                                                                            <li  class="page-item" class="disabled"><a class="page-link">Última</a></li>
+                                                                            <% } else { %>
+                                                                                <li  class="page-item"><a class="page-link" href="/grupos/listagemGeral/<%= paginas %>">Última</a></li>
+                                                                                <% } %>
+                </ul>
+                <% } %>
     </div>
     <%- include('../includes/footer') %>
 </body>

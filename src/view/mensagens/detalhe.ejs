@@ -9,7 +9,8 @@
             <% if(permissaoUsuarioGrupo !='admin' ){ %>
                 <h6 style="text-align: right; margin-right: 12%;">
                     <a href="/grupos/<%=grupo.id%>/eliminarMembro/<%=usuario.email%>">
-                        <i title="Sair do Grupo" style="color: red; font-size: 150%;" class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <i title="Sair do Grupo" style="color: red; font-size: 150%;"
+                            class="fa-solid fa-arrow-right-from-bracket"></i>
                     </a>
                 </h6>
                 <% } %>
@@ -25,7 +26,8 @@
                                             <h6>Membros
                                                 <% if(permissaoUsuarioGrupo=='admin' ){ %>
                                                     <a href="/grupos/<%=grupo.id%>/adicionarMembro">
-                                                        <i title="Adicionar membro" style="font-size: 90%; color: green"class="fa-solid fa-user-plus"></i>
+                                                        <i title="Adicionar membro" style="font-size: 90%; color: green"
+                                                            class="fa-solid fa-user-plus"></i>
                                                     </a>
                                                     <% } %>
                                             </h6>
@@ -37,11 +39,14 @@
                                                     </div>
                                                     <div class="name">
                                                         <%=membro.nome%>
-                                                            <% if(permissaoUsuarioGrupo=='admin' && membro.email !== usuario.email){ %>
+                                                            <% if(permissaoUsuarioGrupo=='admin' && membro.email
+                                                                !==usuario.email){ %>
                                                                 <a
-                                                                    href="/grupos/<%=grupo.id%>/eliminarMembro/<%=membro.email%>"> 
-                                                                    <i title="Remover membro" style="font-size: 90%; color: red;" class="fa-solid fa-user-xmark">
-                                                                        </i>
+                                                                    href="/grupos/<%=grupo.id%>/eliminarMembro/<%=membro.email%>">
+                                                                    <i title="Remover membro"
+                                                                        style="font-size: 90%; color: red;"
+                                                                        class="fa-solid fa-user-xmark">
+                                                                    </i>
                                                                 </a>
                                                                 <% } %>
                                                     </div>
@@ -54,7 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-9 col-xs-12 chat" style="overflow: scroll; outline: none;"
+                                <div class="col-sm-8 col-xs-12 chat" style="overflow: scroll; outline: none;"
                                     tabindex="5001">
                                     <div class="col-inside-lg decor-default"
                                         style="border-radius: 0.5rem;; min-height: 100%;">
@@ -66,13 +71,13 @@
                                                         <img src="/images/usuario.png" alt="Nome do usuário">
                                                         <div class="status online"></div>
                                                     </div>
-                                                    <div class="name">
+                                                    <div class="name" style="font-weight: bold;">
                                                         <%=mensagem.nomeusuario%>
                                                     </div>
                                                     <div class="text">
                                                         <%=mensagem.texto%>
                                                     </div>
-                                                    <div class="time">
+                                                    <div class="time" style="font-size: 75%; color: darkgrey">
                                                         <% let options={ weekday: 'long' , year: 'numeric' ,
                                                             month: 'numeric' , day: 'numeric' , hour: 'numeric' ,
                                                             minute: 'numeric' }; %>
@@ -83,7 +88,8 @@
                                                 <% }) %>
                                                     <% if(permissaoUsuarioGrupo !=='leitor' ){ %>
                                                         <form class="validate-form"
-                                                            action="/mensagens/<%=grupo.id%>/enviaMensagem" method="POST">
+                                                            action="/mensagens/<%=grupo.id%>/enviaMensagem?ultimaPagina=<%=paginas > 0 ? paginas : 1%>"
+                                                            method="POST">
 
                                                             <div class="answer-add">
                                                                 <input class="form-control" name="texto" required
@@ -98,6 +104,46 @@
                                                         <% } %>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-1 col-xs-12 chat" style="overflow: scroll; outline: none;"
+                                    tabindex="5001">
+
+                                    <% if (paginas> 0) { %>
+                                        <ul class="pagination" style="display: inline-block;">
+                                            <% if (atual==1) { %>
+                                                <li class="page-item" class="disabled"><a class="page-link"><i class="fa fa-angle-double-up"></i></a></li>
+                                                <% } else { %>
+                                                    <li class="page-item"><a class="page-link" href="/mensagens/<%=grupo.id%>/1"><i class="fa fa-angle-double-up"></i></a></li>
+                                                    <% } %>
+                                                        <% var i=(Number(atual)> 5 ? Number(atual) - 4 : 1) %>
+                                                            <% if (i !==1) { %>
+                                                                <li class="page-item" class="disabled"><a class="page-link">...</a></li>
+                                                                <% } %>
+                                                                    <% for (; i <=(Number(atual) + 4) && i <=paginas; i++) { %>
+                                                                        <% if (i==atual) { %>
+                                                                            <li class="page-item" class="active"><a class="page-link">
+                                                                                    <%= i %>
+                                                                                </a></li>
+                                                                            <% } else { %>
+                                                                                <li class="page-item"><a class="page-link"
+                                                                                        href="/mensagens/<%=grupo.id%>/<%= i %>">
+                                                                                        <%= i %>
+                                                                                    </a></li>
+                                                                                <% } %>
+                                                                                    <% if (i==Number(atual) + 4 && i < paginas) { %>
+                                                                                        <li class="page-item" class="disabled"><a class="page-link">...</a></li>
+                                                                                        <% } %>
+                                                                                            <% } %>
+                                                                                                <% if (atual==paginas) { %>
+                                                                                                    <li class="page-item" class="disabled"><a class="page-link"><i class="fa fa-angle-double-down"></i></a>
+                                                                                                    </li>
+                                                                                                    <% } else { %>
+                                                                                                        <li class="page-item"><a class="page-link"
+                                                                                                                href="/mensagens/<%=grupo.id%>/<%= paginas %>"><i class="fa fa-angle-double-down"></i></a>
+                                                                                                        </li>
+                                                                                                        <% } %>
+                                        </ul>
+                                        <% } %>
                                 </div>
                             </div>
                         </div>
