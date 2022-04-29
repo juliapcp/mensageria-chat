@@ -19,7 +19,6 @@ class MensagensController {
         const mensagemBody = req.body;
         const { idGrupo } = req.params;
         const { ultimaPagina } = req.query;
-        console.log(ultimaPagina)
         const mensagem = new Mensagem(null, req.session.usuario.email, null, mensagemBody.texto, idGrupo);
         await MensagemDAO.cadastrar(mensagem);
         res.redirect('/mensagens/' + idGrupo +'/'+(ultimaPagina || 1));
